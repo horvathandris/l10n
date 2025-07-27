@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.horvathandris.example.MessageGenerationIntTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-07-27T15:53:09.130Z" hostname="D2Q6M3W7MK" time="0.01">
+  <properties/>
+  <testcase name="generated_messages_are_valid()" classname="dev.horvathandris.example.MessageGenerationIntTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
