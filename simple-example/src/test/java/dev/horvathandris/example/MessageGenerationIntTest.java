@@ -2,6 +2,7 @@ package dev.horvathandris.example;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import dev.horvathandris.example.l10n.L10n;
 import org.junit.jupiter.api.Test;
 
 public class MessageGenerationIntTest {

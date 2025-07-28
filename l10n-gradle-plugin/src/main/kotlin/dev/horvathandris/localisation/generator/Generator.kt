@@ -9,6 +9,7 @@ abstract class Generator {
 
     enum class Type {
         SIMPLE,
+        SPRING,
     }
 
     enum class Language(val value: String) {

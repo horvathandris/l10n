@@ -2,4 +2,4 @@ pluginManagement {
     includeBuild("../l10n-gradle-plugin")
 }
 
-rootProject.name = "example"
+rootProject.name = "simple-example"
