@@ -11,9 +11,9 @@ abstract class Generator {
         SIMPLE,
     }
 
-    enum class Language {
-        KOTLIN,
-        JAVA,
+    enum class Language(val value: String) {
+        KOTLIN("kotlin"),
+        JAVA("java"),
     }
 
     data class Output(

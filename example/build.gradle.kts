@@ -1,4 +1,5 @@
 import dev.horvathandris.localisation.generator.GenerateMessagesTask
+import dev.horvathandris.localisation.generator.Generator
 
 repositories {
     mavenCentral()
@@ -17,6 +18,7 @@ dependencies {
 tasks.named<GenerateMessagesTask>("generateTranslationKeys") {
     messageBundlePath = "src/test/resources/messages.properties"
     packageName = "dev.horvathandris.example"
+    language = Generator.Language.KOTLIN
 }
 
 tasks.named<Test>("test") {
