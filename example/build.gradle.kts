@@ -1,4 +1,4 @@
-import dev.horvathandris.localisation.generator.GenerateTranslationKeysTask
+import dev.horvathandris.localisation.generator.GenerateMessagesTask
 
 repositories {
     mavenCentral()
@@ -14,9 +14,9 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.named<GenerateTranslationKeysTask>("generateTranslationKeys") {
-    messageBundlePath.set("src/test/resources/messages.properties")
-    packageName.set("dev.horvathandris.example")
+tasks.named<GenerateMessagesTask>("generateTranslationKeys") {
+    messageBundlePath = "src/test/resources/messages.properties"
+    packageName = "dev.horvathandris.example"
 }
 
 tasks.named<Test>("test") {

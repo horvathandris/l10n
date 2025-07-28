@@ -7,7 +7,9 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-abstract class GenerateTranslationKeysTask : DefaultTask() {
+private const val GENERATED_OUTPUT_DIRECTORY = "generated/sources/l10n"
+
+abstract class GenerateMessagesTask : DefaultTask() {
 
     init {
         description = "Task to generate code for translation keys defined in a message bundle"
@@ -28,6 +30,8 @@ abstract class GenerateTranslationKeysTask : DefaultTask() {
 
     @TaskAction
     fun action() {
+        cleanOutputDirectory()
+
         val messages = MessageParser(project.file(messageBundlePath.get())).parse()
 
         val generator = GeneratorFactory.get(
@@ -40,11 +44,17 @@ abstract class GenerateTranslationKeysTask : DefaultTask() {
         writeOutputFile(outputFileName, outputFileContent)
     }
 
+    private fun cleanOutputDirectory() {
+        val generatedDir = project.layout.buildDirectory.dir(GENERATED_OUTPUT_DIRECTORY).get().asFile
+        if (generatedDir.exists()) {
+            generatedDir.deleteRecursively()
+        }
+    }
 
     private fun writeOutputFile(outputFileName: String, outputFileContent: String) {
         val packageDirectory = packageName.get().replace(".", "/")
         val outputFile = project.layout.buildDirectory
-            .file("generated/sources/l10n/java/main/$packageDirectory/$outputFileName")
+            .file("$GENERATED_OUTPUT_DIRECTORY/java/main/$packageDirectory/$outputFileName")
             .get().asFile
         outputFile.parentFile.mkdirs()
         outputFile.writeText(outputFileContent)

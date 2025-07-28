@@ -1,6 +1,7 @@
 package dev.horvathandris.localisation
 
-import dev.horvathandris.localisation.generator.GenerateTranslationKeysTask
+import dev.horvathandris.localisation.generator.GenerateMessagesTask
+import dev.horvathandris.localisation.generator.Generator
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
@@ -24,9 +25,11 @@ class L10nPlugin: Plugin<Project> {
     private fun registerGenerateTranslationKeysTask(project: Project, extension: L10nPluginExtension) {
         project.tasks.register(
             GENERATE_TRANSLATION_KEYS_TASK_NAME,
-            GenerateTranslationKeysTask::class.java,
+            GenerateMessagesTask::class.java,
         ) {
             it.messageBundlePath.set(extension.messageBundlePath)
+            it.type.convention(Generator.Type.SIMPLE)
+            it.language.convention(Generator.Language.JAVA)
         }
 
         // add the generated sources to the main source set
