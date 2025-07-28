@@ -28,7 +28,7 @@ class L10nPluginFunctionalTest {
             }
             
             generateTranslationKeys {
-                messageBundlePath = "src/main/resources/messages.properties"
+                messageBundleFile = file("src/main/resources/messages.properties")
                 packageName = "dev.horvathandris.something"
             }
         """.trimIndent())

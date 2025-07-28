@@ -33,7 +33,7 @@ class L10nPlugin: Plugin<Project> {
             GENERATE_TRANSLATION_KEYS_TASK_NAME,
             GenerateMessagesTask::class.java,
         ) {
-            it.messageBundlePath.set(extension.messageBundlePath)
+            it.messageBundleFile.set(extension.messageBundleFile)
             it.type.convention(Generator.Type.SIMPLE)
             it.language.convention(Generator.Language.JAVA)
         }

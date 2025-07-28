@@ -7,6 +7,7 @@ import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 abstract class GenerateMessagesTask : DefaultTask() {
 
@@ -16,7 +17,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
     }
 
     @get:Input
-    abstract val messageBundlePath: Property<String>
+    abstract val messageBundleFile: Property<File>
 
     @get:Input
     abstract val packageName: Property<String>
@@ -31,7 +32,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
     fun action() {
         cleanOutputDirectory()
 
-        val messages = MessageParser(project.file(messageBundlePath.get())).parse()
+        val messages = MessageParser(messageBundleFile.get()).parse()
 
         val generator = GeneratorFactory.get(
             type.get(),

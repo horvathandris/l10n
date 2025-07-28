@@ -16,7 +16,7 @@ dependencies {
 }
 
 tasks.named<GenerateMessagesTask>("generateTranslationKeys") {
-    messageBundlePath = "src/main/resources/messages.properties"
+    messageBundleFile = file("src/main/resources/messages.properties")
     packageName = "dev.horvathandris.example.l10n"
     type = Generator.Type.SIMPLE
 }
