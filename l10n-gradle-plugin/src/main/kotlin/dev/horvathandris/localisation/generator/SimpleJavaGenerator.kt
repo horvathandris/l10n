@@ -1,5 +1,7 @@
 package dev.horvathandris.localisation.generator
 
+import dev.horvathandris.localisation.util.capitalise
+
 class SimpleJavaGenerator(
     val packageName: String,
     indentSize: Int
@@ -27,14 +29,14 @@ class SimpleJavaGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static final String ${key.toUpperCase()} = \"${value.key}\";")
+                appendLine("${indent}public static final String ${key.uppercase()} = \"${value.key}\";")
             }
 
             if (value.children.isNotEmpty()) {
                 appendLine()
-                appendLine("${indent}public static final class ${key.capitalize()} {")
+                appendLine("${indent}public static final class ${key.capitalise()} {")
                 appendLine()
-                appendLine("$indent${topLevelIndent}private ${key.capitalize()}() {}")
+                appendLine("$indent${topLevelIndent}private ${key.capitalise()}() {}")
                 appendMessages(value.children, "$indent$topLevelIndent")
                 appendLine("${indent}}")
             }
