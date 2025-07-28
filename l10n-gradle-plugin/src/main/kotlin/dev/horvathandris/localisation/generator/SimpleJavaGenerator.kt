@@ -12,7 +12,7 @@ class SimpleJavaGenerator(
 
     private val topLevelIndent: String = " ".repeat(indentSize)
 
-    override fun generate(messages: MessageTree) = GeneratorOutput(
+    override fun generate(messages: MessageTree) = Output(
         filename = OUTPUT_FILENAME,
         content = generateContent(messages),
     )

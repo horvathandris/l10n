@@ -5,7 +5,7 @@ typealias OutputFileContent = String
 
 abstract class Generator {
 
-    abstract fun generate(messages: MessageTree): GeneratorOutput
+    abstract fun generate(messages: MessageTree): Output
 
     enum class Type {
         SIMPLE,
@@ -15,9 +15,9 @@ abstract class Generator {
         KOTLIN,
         JAVA,
     }
-}
 
-data class GeneratorOutput(
-    val filename: OutputFileName,
-    val content: OutputFileContent,
-)
+    data class Output(
+        val filename: OutputFileName,
+        val content: OutputFileContent,
+    )
+}
