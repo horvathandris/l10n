@@ -20,6 +20,9 @@ class SimpleJavaGenerator(
     private fun generateContent(messages: MessageTree) = buildString {
         appendLine("package $packageName;")
         appendLine()
+        appendLine("import javax.annotation.processing.Generated;")
+        appendLine()
+        appendLine("@Generated(\"${this@SimpleJavaGenerator.javaClass.canonicalName}\")")
         appendLine("public final class L10n {")
         appendLine()
         appendLine("${topLevelIndent}private L10n() {}")

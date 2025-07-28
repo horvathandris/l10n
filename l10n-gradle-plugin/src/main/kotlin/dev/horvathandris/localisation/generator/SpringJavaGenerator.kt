@@ -19,10 +19,12 @@ class SpringJavaGenerator(
     private fun generateContent(messages: MessageTree) = buildString {
         appendLine("package $packageName;")
         appendLine()
+        appendLine("import javax.annotation.processing.Generated;")
         appendLine("import org.springframework.context.MessageSource;")
         appendLine("import org.springframework.context.i18n.LocaleContextHolder;")
         appendLine("import org.springframework.stereotype.Component;")
         appendLine()
+        appendLine("@Generated(\"${this@SpringJavaGenerator.javaClass.canonicalName}\")")
         appendLine("@Component")
         appendLine("public final class L10n {")
         appendLine()
@@ -32,10 +34,12 @@ class SpringJavaGenerator(
         appendLine("${topLevelIndent}${topLevelIndent}this.messageSource = messageSource;")
         appendLine("${topLevelIndent}}")
         appendLine()
-        appendLine("${topLevelIndent}public String getMessage(final String key) {")
-        appendLine("${topLevelIndent}${topLevelIndent}return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());")
+        appendLine("${topLevelIndent}public String translate(final MessageKeyWithArgs message) {")
+        appendLine("${topLevelIndent}${topLevelIndent}return messageSource.getMessage(message.key(), message.args(), LocaleContextHolder.getLocale());")
         appendLine("${topLevelIndent}}")
         appendMessages(messages, topLevelIndent)
+        appendLine()
+        appendLine("${topLevelIndent}public record MessageKeyWithArgs(String key, Object... args) {}")
         appendLine("}")
     }
 
@@ -49,7 +53,9 @@ class SpringJavaGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static final String ${key.uppercase()} = \"${value.key}\";")
+                appendLine("${indent}public static MessageKeyWithArgs ${key.lowercase()}(Object... args) {")
+                appendLine("${indent}${topLevelIndent}return new MessageKeyWithArgs(\"${value.key}\", args);")
+                appendLine("${indent}}")
             }
 
             if (value.children.isNotEmpty()) {
