@@ -1,16 +1,12 @@
 package dev.horvathandris.localisation.generator
 
+import dev.horvathandris.localisation.getGeneratedSourceSetPath
 import dev.horvathandris.localisation.parser.MessageParser
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskAction
-
-private const val GENERATED_OUTPUT_DIRECTORY = "generated/sources/l10n"
-private const val SOURCE_SETS = "sourceSets"
-private const val MAIN_SOURCE_SET = "main"
 
 abstract class GenerateMessagesTask : DefaultTask() {
 
@@ -45,12 +41,10 @@ abstract class GenerateMessagesTask : DefaultTask() {
         )
         val (outputFileName, outputFileContent) = generator.generate(messages)
         writeOutputFile(outputFileName, outputFileContent)
-
-        addGeneratedOutputDirectoryToSourceSet()
     }
 
     private fun cleanOutputDirectory() {
-        val generatedDir = project.layout.buildDirectory.dir(GENERATED_OUTPUT_DIRECTORY).get().asFile
+        val generatedDir = project.layout.buildDirectory.dir("generated/sources/l10n").get().asFile
         if (generatedDir.exists()) {
             generatedDir.deleteRecursively()
         }
@@ -59,21 +53,10 @@ abstract class GenerateMessagesTask : DefaultTask() {
     private fun writeOutputFile(outputFileName: String, outputFileContent: String) {
         val packageDirectory = packageName.get().replace(".", "/")
         val outputFile = project.layout.buildDirectory
-            .file("${getSourceSetPath()}/$packageDirectory/$outputFileName")
+            .file("${project.getGeneratedSourceSetPath()}/$packageDirectory/$outputFileName")
             .get().asFile
         outputFile.parentFile.mkdirs()
         outputFile.writeText(outputFileContent)
     }
-
-    private fun addGeneratedOutputDirectoryToSourceSet() {
-        // add the generated sources to the main source set
-        (project.properties[SOURCE_SETS] as SourceSetContainer)
-            .getByName(MAIN_SOURCE_SET)
-            .java
-            .srcDir(getSourceSetPath())
-    }
-
-    private fun getSourceSetPath() =
-        "${project.layout.buildDirectory.get().asFile.toURI().toURL()}/$GENERATED_OUTPUT_DIRECTORY/${language.get().value}/$MAIN_SOURCE_SET"
 
 }
