@@ -3,9 +3,9 @@ package dev.horvathandris.localisation.generator
 import dev.horvathandris.localisation.util.capitalise
 
 private const val TOP_LEVEL_CLASSNAME = "L10n"
-private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.java"
+private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.kt"
 
-class SimpleJavaGenerator(
+class SimpleKotlinGenerator(
     val packageName: String,
     indentSize: Int,
 ) : Generator() {
@@ -18,11 +18,9 @@ class SimpleJavaGenerator(
     )
 
     private fun generateContent(messages: MessageTree) = buildString {
-        appendLine("package $packageName;")
+        appendLine("package $packageName")
         appendLine()
-        appendLine("public final class L10n {")
-        appendLine()
-        appendLine("${topLevelIndent}private L10n() {}")
+        appendLine("object L10n {")
         appendMessages(messages, topLevelIndent)
         appendLine("}")
     }
@@ -37,14 +35,12 @@ class SimpleJavaGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static final String ${key.uppercase()} = \"${value.key}\";")
+                appendLine("${indent}const val ${key.uppercase()} = \"${value.key}\"")
             }
 
             if (value.children.isNotEmpty()) {
                 appendLine()
-                appendLine("${indent}public static final class ${key.capitalise()} {")
-                appendLine()
-                appendLine("$indent${topLevelIndent}private ${key.capitalise()}() {}")
+                appendLine("${indent}object ${key.capitalise()} {")
                 appendMessages(value.children, "$indent$topLevelIndent")
                 appendLine("${indent}}")
             }

@@ -22,7 +22,7 @@ abstract class GeneratorFactory {
         ): Generator {
             return when (language) {
                 GeneratorLanguage.JAVA -> SimpleJavaGenerator(packageName, indentSize)
-                GeneratorLanguage.KOTLIN -> TODO()
+                GeneratorLanguage.KOTLIN -> SimpleKotlinGenerator(packageName, indentSize)
             }
         }
     }
