@@ -1,5 +1,6 @@
 package dev.horvathandris.localisation.generator
 
+import dev.horvathandris.localisation.parser.MessageParser
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.provider.Property
@@ -20,14 +21,14 @@ abstract class GenerateTranslationKeysTask : DefaultTask() {
     abstract val packageName: Property<String>
 
     @get:Input
-    abstract val language: Property<GeneratorLanguage>
+    abstract val language: Property<Generator.Language>
 
     @get:Input
-    abstract val type: Property<GeneratorType>
+    abstract val type: Property<Generator.Type>
 
     @TaskAction
     fun action() {
-        val messages = parseMessages()
+        val messages = MessageParser(project.file(messageBundlePath.get())).parse()
 
         val generator = GeneratorFactory.get(
             type.get(),
@@ -38,25 +39,6 @@ abstract class GenerateTranslationKeysTask : DefaultTask() {
         val (outputFileName, outputFileContent) = generator.generate(messages)
         writeOutputFile(outputFileName, outputFileContent)
     }
-
-    private fun parseMessages() = project.file(messageBundlePath.get())
-        .readLines()
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-        .filter { !it.startsWith("#") && !it.startsWith("!") }
-        .map { it.split("=") }
-        .map { (key, value) -> key.trimEnd() to value.trimStart() }
-        .fold(mutableMapOf<String, MessageComponent>()) { messages, (key, value) ->
-            val keyComponents = key.split(".")
-            var currentNode = messages
-            for (component in keyComponents.dropLast(1)) {
-                currentNode = currentNode.computeIfAbsent(component) {
-                    MessageComponent()
-                }.children
-            }
-            currentNode[keyComponents.last()] = MessageComponent(key, value)
-            messages
-        }
 
 
     private fun writeOutputFile(outputFileName: String, outputFileContent: String) {

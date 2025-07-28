@@ -5,24 +5,24 @@ abstract class GeneratorFactory {
     companion object {
 
         fun get(
-            type: GeneratorType,
-            language: GeneratorLanguage,
+            type: Generator.Type,
+            language: Generator.Language,
             packageName: String,
             indentSize: Int,
         ): Generator {
             return when (type) {
-                GeneratorType.SIMPLE -> getSimpleGenerator(language, packageName, indentSize)
+                Generator.Type.SIMPLE -> getSimpleGenerator(language, packageName, indentSize)
             }
         }
 
         private fun getSimpleGenerator(
-            language: GeneratorLanguage,
+            language: Generator.Language,
             packageName: String,
             indentSize: Int,
         ): Generator {
             return when (language) {
-                GeneratorLanguage.JAVA -> SimpleJavaGenerator(packageName, indentSize)
-                GeneratorLanguage.KOTLIN -> SimpleKotlinGenerator(packageName, indentSize)
+                Generator.Language.JAVA -> SimpleJavaGenerator(packageName, indentSize)
+                Generator.Language.KOTLIN -> SimpleKotlinGenerator(packageName, indentSize)
             }
         }
     }
