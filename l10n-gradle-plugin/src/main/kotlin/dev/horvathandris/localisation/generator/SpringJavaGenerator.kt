@@ -27,7 +27,10 @@ class SpringJavaGenerator(
         appendLine()
         appendLine("import javax.annotation.processing.Generated;")
         appendLine()
-        appendLine("@Generated(\"${this@SpringJavaGenerator.javaClass.canonicalName}\")")
+        appendLine("@Generated(")
+        appendLine("${topLevelIndent}value = \"${this@SpringJavaGenerator.javaClass.canonicalName}\",")
+        appendLine("${topLevelIndent}date = \"${java.time.OffsetDateTime.now()}\"")
+        appendLine(")")
         appendLine("public final class L10n {")
         appendLine()
         appendLine("${topLevelIndent}private L10n() {}")
@@ -42,13 +45,13 @@ class SpringJavaGenerator(
         indent: String
     ) {
         messages.forEach { (key, value) ->
-            if (value.value != null) {
+            if (value.message?.value != null) {
                 appendLine()
                 appendLine("${indent}/**")
-                appendLine("$indent * ${value.value}")
+                appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static MessageKeyWithArgs ${key.lowercase()}(Object... args) {")
-                appendLine("${indent}${topLevelIndent}return new MessageKeyWithArgs(\"${value.key}\", args);")
+                appendLine("${indent}public static MessageKeyWithArgs ${key.lowercase()}(${formatFunctionArguments(value.message.arguments)}) {")
+                appendLine("${indent}${topLevelIndent}return new MessageKeyWithArgs(\"${value.message.key}\"${formatCallArguments(value.message.arguments)});")
                 appendLine("${indent}}")
             }
 
@@ -62,6 +65,13 @@ class SpringJavaGenerator(
             }
         }
     }
+
+    private fun formatFunctionArguments(arguments: List<String>): String =
+        arguments.joinToString(separator = ", ") { "final String arg$it" }
+
+    private fun formatCallArguments(arguments: List<String>): String =
+        if (arguments.isNotEmpty()) arguments.joinToString(prefix = ", ", separator = ", ") { "arg$it" }
+        else ""
 
     private fun generateTranslatorService() = buildString {
         appendLine("package $packageName;")

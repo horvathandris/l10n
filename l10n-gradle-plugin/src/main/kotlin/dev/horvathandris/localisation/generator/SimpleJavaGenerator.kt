@@ -35,12 +35,12 @@ class SimpleJavaGenerator(
         indent: String
     ) {
         messages.forEach { (key, value) ->
-            if (value.value != null) {
+            if (value.message?.value != null) {
                 appendLine()
                 appendLine("${indent}/**")
-                appendLine("$indent * ${value.value}")
+                appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static final String ${key.uppercase()} = \"${value.key}\";")
+                appendLine("${indent}public static final String ${key.uppercase()} = \"${value.message.key}\";")
             }
 
             if (value.children.isNotEmpty()) {

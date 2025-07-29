@@ -30,12 +30,12 @@ class SimpleKotlinGenerator(
         indent: String
     ) {
         messages.forEach { (key, value) ->
-            if (value.value != null) {
+            if (value.message?.value != null) {
                 appendLine()
                 appendLine("${indent}/**")
-                appendLine("$indent * ${value.value}")
+                appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}const val ${key.uppercase()} = \"${value.key}\"")
+                appendLine("${indent}const val ${key.uppercase()} = \"${value.message.key}\"")
             }
 
             if (value.children.isNotEmpty()) {

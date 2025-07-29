@@ -16,7 +16,7 @@ public class MessageGenerationIntTest {
 
   @Test
   void generated_messages_are_valid() {
-    assertEquals("test.message.title", L10n.Test.Message.title().key());
-    assertEquals("Test message title", translator.translate(L10n.Test.Message.title()));
+    assertEquals("test.message.title", L10n.Test.Message.title("first", "second").key());
+    assertEquals("Test message title with first and second", translator.translate(L10n.Test.Message.title("first", "second")));
   }
 }
