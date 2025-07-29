@@ -1,9 +1,9 @@
 package dev.horvathandris.example;
 
+import dev.horvathandris.example.l10n.Translator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import dev.horvathandris.example.l10n.L10n;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 @Configuration
@@ -18,7 +18,7 @@ public class L10nConfig {
   }
 
   @Bean
-  public L10n l10n(MessageSource messageSource) {
-    return new L10n(messageSource);
+  public Translator translator(MessageSource messageSource) {
+    return new Translator(messageSource);
   }
 }

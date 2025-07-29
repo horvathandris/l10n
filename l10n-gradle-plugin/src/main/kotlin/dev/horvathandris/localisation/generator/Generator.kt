@@ -5,7 +5,7 @@ typealias OutputFileContent = String
 
 abstract class Generator {
 
-    abstract fun generate(messages: MessageTree): Output
+    abstract fun generate(messages: MessageTree): List<Output>
 
     enum class Type {
         SIMPLE,

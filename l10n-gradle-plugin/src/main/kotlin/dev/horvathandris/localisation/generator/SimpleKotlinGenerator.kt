@@ -12,10 +12,10 @@ class SimpleKotlinGenerator(
 
     private val topLevelIndent: String = " ".repeat(indentSize)
 
-    override fun generate(messages: MessageTree) = Output(
+    override fun generate(messages: MessageTree) = listOf(Output(
         filename = OUTPUT_FILENAME,
         content = generateContent(messages),
-    )
+    ))
 
     private fun generateContent(messages: MessageTree) = buildString {
         appendLine("package $packageName")
