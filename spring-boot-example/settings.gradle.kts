@@ -2,4 +2,4 @@ pluginManagement {
     includeBuild("../l10n-gradle-plugin")
 }
 
-rootProject.name = "spring-example"
+rootProject.name = "spring-boot-example"

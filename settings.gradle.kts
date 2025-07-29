@@ -1,5 +1,7 @@
-rootProject.name = "l10n"
+rootProject.name = "localisation"
 
-include("spring-example")
-include("simple-example")
 includeBuild("l10n-gradle-plugin")
+include("l10n-starter")
+include("spring-boot-example")
+include("simple-example")
+include("l10n")
