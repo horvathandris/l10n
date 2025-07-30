@@ -21,7 +21,7 @@ class SpringJavaGenerator(
     private fun generateContent(messages: MessageTree) = buildString {
         appendLine("package $packageName;")
         appendLine()
-        appendLine("import dev.horvathandris.localisation.MessageKeyWithArgs;")
+        appendLine("import dev.horvathandris.localisation.L10nMessageSourceResolvable;")
         appendLine("import javax.annotation.processing.Generated;")
         appendLine()
         appendLine("@Generated(")
@@ -45,8 +45,8 @@ class SpringJavaGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static MessageKeyWithArgs ${key.lowercase()}(${formatFunctionArguments(value.message.arguments)}) {")
-                appendLine("${indent}${topLevelIndent}return new MessageKeyWithArgs(\"${value.message.key}\"${formatCallArguments(value.message.arguments)});")
+                appendLine("${indent}public static L10nMessageSourceResolvable ${key.lowercase()}(${formatFunctionArguments(value.message.arguments)}) {")
+                appendLine("${indent}${topLevelIndent}return new L10nMessageSourceResolvable(\"${value.message.key}\", \"${value.message.value}\"${formatCallArguments(value.message.arguments)});")
                 appendLine("${indent}}")
             }
 

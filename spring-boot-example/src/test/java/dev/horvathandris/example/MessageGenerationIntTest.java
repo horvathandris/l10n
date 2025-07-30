@@ -18,14 +18,14 @@ public class MessageGenerationIntTest {
 
   @Test
   void generated_messages_are_valid() {
-    assertEquals("test.message.title", L10n.Test.Message.title("first", "second").getKey());
-    assertEquals("Test message title with first and second", translator.translate(L10n.Test.Message.title("first", "second")));
+    assertEquals("test.message.title", L10n.Test.Message.title("1", "2").getCode());
+    assertEquals("Test message title with 1 and 2", translator.translate(L10n.Test.Message.title("1", "2")));
   }
 
   @Test
   void generated_messages_can_be_translated() {
     LocaleContextHolder.setLocale(Locale.of("hu"));
-    assertEquals("test.message.title", L10n.Test.Message.title("first", "second").getKey());
-    assertEquals("Teszt üzenet fejléc első és második használatával", translator.translate(L10n.Test.Message.title("first", "second")));
+    assertEquals("test.message.title", L10n.Test.Message.title("1", "2").getCode());
+    assertEquals("Teszt üzenet fejléc 1 és 2 használatával", translator.translate(L10n.Test.Message.title("1", "2")));
   }
 }

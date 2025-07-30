@@ -7,8 +7,8 @@ class Translator(
     private val messageSource: MessageSource,
 ) {
 
-    fun translate(message: MessageKeyWithArgs): String {
-        return messageSource.getMessage(message.key, message.args, LocaleContextHolder.getLocale())
+    fun translate(message: L10nMessageSourceResolvable): String {
+        return messageSource.getMessage(message, LocaleContextHolder.getLocale())
     }
 
 }
