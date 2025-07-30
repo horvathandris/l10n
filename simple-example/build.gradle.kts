@@ -15,7 +15,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.named<GenerateMessagesTask>("generateTranslationKeys") {
+tasks.named<GenerateMessagesTask>("generateMessages") {
     messageBundleFile = file("src/main/resources/messages.properties")
     packageName = "dev.horvathandris.example.l10n"
     type = Generator.Type.SIMPLE

@@ -15,7 +15,7 @@ class L10nPluginTest {
         project.plugins.apply("dev.horvathandris.localisation")
 
         // then
-        assertNotNull(project.tasks.findByName("generateTranslationKeys"))
+        assertNotNull(project.tasks.findByName("generateMessages"))
     }
 
 }

@@ -1,8 +1,7 @@
 plugins {
-    kotlin("jvm") version "2.2.0"
+    alias(libs.plugins.kotlin.jvm)
 }
 
-group = "dev.horvathandris.localisation"
 version = "unspecified"
 
 repositories {
@@ -12,7 +11,7 @@ repositories {
 dependencies {
     api(project(":l10n"))
 
-    implementation("org.springframework.boot:spring-boot-autoconfigure:3.5.4")
+    implementation(libs.spring.boot.autoconfigure)
 
     testImplementation(kotlin("test"))
 }

@@ -1,12 +1,11 @@
 package dev.horvathandris.localisation
 
-import java.io.File
-import kotlin.test.assertTrue
-import kotlin.test.Test
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.io.TempDir
-import java.net.URLClassLoader
+import java.io.File
+import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class L10nPluginFunctionalTest {
 
@@ -27,7 +26,7 @@ class L10nPluginFunctionalTest {
                 id("dev.horvathandris.localisation")
             }
             
-            generateTranslationKeys {
+            generateMessages {
                 messageBundleFile = file("src/main/resources/messages.properties")
                 packageName = "dev.horvathandris.something"
             }
@@ -40,7 +39,7 @@ class L10nPluginFunctionalTest {
         GradleRunner.create()
             .forwardOutput()
             .withPluginClasspath()
-            .withArguments("generateTranslationKeys")
+            .withArguments("generateMessages")
             .withProjectDir(projectDir)
             .withDebug(true)
             .build()

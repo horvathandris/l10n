@@ -1,8 +1,7 @@
 plugins {
-    kotlin("jvm") version "2.2.0"
+    alias(libs.plugins.kotlin.jvm)
 }
 
-group = "dev.horvathandris.localisation"
 version = "unspecified"
 
 repositories {
@@ -10,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework:spring-context:6.2.9")
+    implementation(libs.spring.context)
 
     testImplementation(kotlin("test"))
 }

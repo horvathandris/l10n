@@ -1,1 +1,11 @@
 # localisation
+
+## Roadmap
+
+[ ] Add tests for all modules
+[ ] Make kotlin spring generator
+[ ] Clean up and normalise dependencies and build files
+[ ] Generated java files shouldn't be editable
+[ ] Add javadoc for Translator, L10nMessageSourceResolvable
+[ ] Add kotlin example
+[ ] Add kotlin spring example

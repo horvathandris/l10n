@@ -12,16 +12,17 @@ plugins {
 
 dependencies {
     implementation(project(":l10n-starter"))
-    implementation("org.springframework.boot:spring-boot-starter:3.5.4")
-    implementation("org.springframework:spring-context:6.2.9")
+
+    implementation(libs.spring.boot.starter)
+    implementation(libs.spring.context)
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.4")
+    testImplementation(libs.spring.boot.starter.test)
 }
 
-tasks.named<GenerateMessagesTask>("generateTranslationKeys") {
+tasks.named<GenerateMessagesTask>("generateMessages") {
     messageBundleFile = file("src/main/resources/i18n/messages.properties")
     packageName = "dev.horvathandris.example.l10n"
     type = Generator.Type.SPRING

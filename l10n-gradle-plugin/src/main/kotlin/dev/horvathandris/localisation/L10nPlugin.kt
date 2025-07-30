@@ -7,7 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 
 private const val EXTENSION_NAME = "l10nPluginExtension"
-private const val GENERATE_TRANSLATION_KEYS_TASK_NAME = "generateTranslationKeys"
+private const val GENERATE_MESSAGES_TASK_NAME = "generateMessages"
 private const val COMPILE_JAVA_TASK_NAME = "compileJava"
 private const val SOURCE_SETS = "sourceSets"
 private const val MAIN_SOURCE_SET = "main"
@@ -19,7 +19,7 @@ class L10nPlugin: Plugin<Project> {
             EXTENSION_NAME,
             L10nPluginExtension::class.java,
         )
-        registerGenerateTranslationKeysTask(project, extension)
+        registerGenerateMessagesTask(project, extension)
 
         // Add generated output directory to source set during configuration
         (project.properties[SOURCE_SETS] as SourceSetContainer)
@@ -28,9 +28,9 @@ class L10nPlugin: Plugin<Project> {
             .srcDir(project.getGeneratedSourceSetPath())
     }
 
-    private fun registerGenerateTranslationKeysTask(project: Project, extension: L10nPluginExtension) {
+    private fun registerGenerateMessagesTask(project: Project, extension: L10nPluginExtension) {
         project.tasks.register(
-            GENERATE_TRANSLATION_KEYS_TASK_NAME,
+            GENERATE_MESSAGES_TASK_NAME,
             GenerateMessagesTask::class.java,
         ) {
             it.messageBundleFile.set(extension.messageBundleFile)
@@ -39,7 +39,7 @@ class L10nPlugin: Plugin<Project> {
         }
 
         project.tasks.getByName(COMPILE_JAVA_TASK_NAME)
-            .dependsOn(GENERATE_TRANSLATION_KEYS_TASK_NAME)
+            .dependsOn(GENERATE_MESSAGES_TASK_NAME)
     }
 }
 
