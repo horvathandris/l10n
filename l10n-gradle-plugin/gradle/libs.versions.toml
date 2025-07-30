@@ -1,3 +1,6 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+[versions]
+kotlin = "2.2.0"
+
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.0" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -45,12 +45,15 @@ class L10nPluginFunctionalTest {
             .build()
 
         // then
-        val output = projectDir.resolve("build/generated/sources/l10n/java/main/dev/horvathandris/something/L10n.java")
+        val output = projectDir.resolve("build/generated/sources/l10n/main/java/dev/horvathandris/something/L10n.java")
         assertTrue(output.exists())
         assertEquals(
             """
                 package dev.horvathandris.something;
 
+                import javax.annotation.processing.Generated;
+                
+                @Generated("dev.horvathandris.localisation.generator.SimpleJavaGenerator")
                 public final class L10n {
                 
                     private L10n() {}

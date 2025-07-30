@@ -20,12 +20,6 @@ class L10nPlugin: Plugin<Project> {
             L10nPluginExtension::class.java,
         )
         registerGenerateMessagesTask(project, extension)
-
-        // Add generated output directory to source set during configuration
-        (project.properties[SOURCE_SETS] as SourceSetContainer)
-            .getByName(MAIN_SOURCE_SET)
-            .java
-            .srcDir(project.getGeneratedSourceSetPath())
     }
 
     private fun registerGenerateMessagesTask(project: Project, extension: L10nPluginExtension) {
@@ -38,8 +32,17 @@ class L10nPlugin: Plugin<Project> {
             it.language.convention(Generator.Language.JAVA)
         }
 
-        project.tasks.getByName(COMPILE_JAVA_TASK_NAME)
-            .dependsOn(GENERATE_MESSAGES_TASK_NAME)
+        project.pluginManager.withPlugin("java") {
+            project.tasks.named(COMPILE_JAVA_TASK_NAME) {
+                it.dependsOn(GENERATE_MESSAGES_TASK_NAME)
+            }
+
+            // Add generated output directory to source set during configuration
+            (project.properties[SOURCE_SETS] as SourceSetContainer)
+                .getByName(MAIN_SOURCE_SET)
+                .java
+                .srcDir(project.getGeneratedSourceSetPath())
+        }
     }
 }
 

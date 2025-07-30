@@ -11,11 +11,11 @@ repositories {
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
-            useKotlinTest("2.1.20")
+            useKotlinTest(libs.versions.kotlin)
         }
 
         val functionalTest by registering(JvmTestSuite::class) {
-            useKotlinTest("2.1.20")
+            useKotlinTest(libs.versions.kotlin)
 
             dependencies {
                 implementation(project())
