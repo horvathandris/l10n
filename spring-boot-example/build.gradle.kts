@@ -11,7 +11,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":l10n-starter"))
+    implementation(project(":l10n-spring-boot-starter"))
 
     implementation(libs.spring.boot.starter)
     implementation(libs.spring.context)

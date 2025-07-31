@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":l10n"))
+    api(project(":l10n-spring"))
 
     implementation(libs.spring.boot.autoconfigure)
 
