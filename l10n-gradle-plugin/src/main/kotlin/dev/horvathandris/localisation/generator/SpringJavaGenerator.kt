@@ -1,6 +1,7 @@
 package dev.horvathandris.localisation.generator
 
-import dev.horvathandris.localisation.util.capitalise
+import dev.horvathandris.localisation.util.CodeCase
+import dev.horvathandris.localisation.util.convertCase
 
 private const val OUTPUT_FILENAME = "L10n.java"
 
@@ -45,16 +46,16 @@ class SpringJavaGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static L10nMessageSourceResolvable ${key.lowercase()}(${formatFunctionArguments(value.message.arguments)}) {")
+                appendLine("${indent}public static L10nMessageSourceResolvable ${key.convertCase(CodeCase.CAMEL)}(${formatFunctionArguments(value.message.arguments)}) {")
                 appendLine("${indent}${topLevelIndent}return new L10nMessageSourceResolvable(\"${value.message.key}\", \"${value.message.value}\"${formatCallArguments(value.message.arguments)});")
                 appendLine("${indent}}")
             }
 
             if (value.children.isNotEmpty()) {
                 appendLine()
-                appendLine("${indent}public final class ${key.capitalise()} {")
+                appendLine("${indent}public final class ${key.convertCase(CodeCase.PASCAL)} {")
                 appendLine()
-                appendLine("$indent${topLevelIndent}private ${key.capitalise()}() {}")
+                appendLine("$indent${topLevelIndent}private ${key.convertCase(CodeCase.PASCAL)}() {}")
                 appendMessages(value.children, "$indent$topLevelIndent")
                 appendLine("${indent}}")
             }

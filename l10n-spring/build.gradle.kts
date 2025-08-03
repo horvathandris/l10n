@@ -2,8 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
-version = "unspecified"
-
 repositories {
     mavenCentral()
 }
