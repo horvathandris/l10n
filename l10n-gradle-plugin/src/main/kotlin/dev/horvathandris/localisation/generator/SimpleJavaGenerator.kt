@@ -1,6 +1,7 @@
 package dev.horvathandris.localisation.generator
 
-import dev.horvathandris.localisation.util.capitalise
+import dev.horvathandris.localisation.util.CodeCase
+import dev.horvathandris.localisation.util.convertCase
 
 private const val TOP_LEVEL_CLASSNAME = "L10n"
 private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.java"
@@ -40,14 +41,14 @@ class SimpleJavaGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}public static final String ${key.uppercase()} = \"${value.message.key}\";")
+                appendLine("${indent}public static final String ${key.convertCase(CodeCase.SCREAMING_SNAKE)} = \"${value.message.key}\";")
             }
 
             if (value.children.isNotEmpty()) {
                 appendLine()
-                appendLine("${indent}public static final class ${key.capitalise()} {")
+                appendLine("${indent}public static final class ${key.convertCase(CodeCase.PASCAL)} {")
                 appendLine()
-                appendLine("$indent${topLevelIndent}private ${key.capitalise()}() {}")
+                appendLine("$indent${topLevelIndent}private ${key.convertCase(CodeCase.PASCAL)}() {}")
                 appendMessages(value.children, "$indent$topLevelIndent")
                 appendLine("${indent}}")
             }

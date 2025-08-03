@@ -58,38 +58,18 @@ class L10nPluginFunctionalTest {
                 
                     private L10n() {}
                 
-                    public static final class Some {
+                    public static final class Test {
                 
-                        private Some() {}
+                        private Test() {}
                 
                         public static final class Message {
                 
                             private Message() {}
                 
                             /**
-                             * Some message title
+                             * Test message title with {0} and {1}
                              */
-                            public static final String TITLE = "some.message.title";
-                
-                            /**
-                             * Some message content
-                             */
-                            public static final String CONTENT = "some.message.content";
-                        }
-                
-                        public static final class Error {
-                
-                            private Error() {}
-                
-                            /**
-                             * Some error title
-                             */
-                            public static final String TITLE = "some.error.title";
-                
-                            /**
-                             * Some error content
-                             */
-                            public static final String CONTENT = "some.error.content";
+                            public static final String TITLE = "test.message.title";
                         }
                     }
                 
@@ -113,6 +93,41 @@ class L10nPluginFunctionalTest {
                         }
                     }
                 
+                    public static final class Some {
+                
+                        private Some() {}
+                
+                        public static final class Error {
+                
+                            private Error() {}
+                
+                            /**
+                             * Some error title
+                             */
+                            public static final String TITLE = "some.error.title";
+                
+                            /**
+                             * Some error content
+                             */
+                            public static final String CONTENT = "some.error.content";
+                        }
+                
+                        public static final class Message {
+                
+                            private Message() {}
+                
+                            /**
+                             * Some message title
+                             */
+                            public static final String TITLE = "some.message.title";
+                
+                            /**
+                             * Some message content
+                             */
+                            public static final String CONTENT = "some.message.content";
+                        }
+                    }
+                
                     public static final class Whitespace {
                 
                         private Whitespace() {}
@@ -127,10 +142,20 @@ class L10nPluginFunctionalTest {
                             private Trailing() {}
                 
                             /**
-                             * trailing whitespace test
+                             * trailing whitespace test       
                              */
                             public static final String TEST = "whitespace.trailing.test";
                         }
+                    }
+                
+                    public static final class MessageCodeWithHyphens {
+                
+                        private MessageCodeWithHyphens() {}
+                
+                        /**
+                         * Message code with hyphens
+                         */
+                        public static final String MESSAGE_CONTENT = "message-code-with-hyphens.message-content";
                     }
                 }
 

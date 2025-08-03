@@ -1,6 +1,7 @@
 package dev.horvathandris.localisation.generator
 
-import dev.horvathandris.localisation.util.capitalise
+import dev.horvathandris.localisation.util.CodeCase
+import dev.horvathandris.localisation.util.convertCase
 
 private const val TOP_LEVEL_CLASSNAME = "L10n"
 private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.kt"
@@ -35,12 +36,12 @@ class SimpleKotlinGenerator(
                 appendLine("${indent}/**")
                 appendLine("$indent * ${value.message.value}")
                 appendLine("$indent */")
-                appendLine("${indent}const val ${key.uppercase()} = \"${value.message.key}\"")
+                appendLine("${indent}const val ${key.convertCase(CodeCase.SCREAMING_SNAKE)} = \"${value.message.key}\"")
             }
 
             if (value.children.isNotEmpty()) {
                 appendLine()
-                appendLine("${indent}object ${key.capitalise()} {")
+                appendLine("${indent}object ${key.convertCase(CodeCase.PASCAL)} {")
                 appendMessages(value.children, "$indent$topLevelIndent")
                 appendLine("${indent}}")
             }
