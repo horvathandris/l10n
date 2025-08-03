@@ -58,11 +58,6 @@ publishing {
             }
         }
     }
-    publications {
-        create<MavenPublication>("l10nGradlePluginMaven") {
-            from(components["java"])
-        }
-    }
 }
 
 gradlePlugin.testSourceSets.add(sourceSets["functionalTest"])
