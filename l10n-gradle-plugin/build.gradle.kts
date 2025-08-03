@@ -1,5 +1,6 @@
 plugins {
     `java-gradle-plugin`
+    alias(libs.plugins.gradle.plugin.publish)
     alias(libs.plugins.kotlin.jvm)
 }
 
@@ -36,6 +37,8 @@ gradlePlugin {
         implementationClass = "dev.horvathandris.localisation.L10nPlugin"
         displayName = "Localisation CodeGen"
         description = "Plugin for generating aergonomic code from translation message keys."
+        website = "https://github.com/horvathandris/l10n"
+        vcsUrl = "https://github.com/horvathandris/l10n"
         tags = listOf(
             "i18n", "internationalization", "internationalisation",
             "l10n", "localization", "localisation",
