@@ -47,6 +47,24 @@ gradlePlugin {
     }
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/horvathandris/l10n")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("l10nGradlePluginMaven") {
+            from(components["java"])
+        }
+    }
+}
+
 gradlePlugin.testSourceSets.add(sourceSets["functionalTest"])
 
 tasks.named<Task>("check") {
