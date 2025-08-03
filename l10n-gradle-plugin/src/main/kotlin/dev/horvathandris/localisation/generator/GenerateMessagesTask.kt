@@ -35,7 +35,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
     fun action() {
         cleanOutputDirectory()
 
-        val messages = MessageParser(messageBundleFile.get()).parse()
+        val messages = MessageParser().parse(messageBundleFile.get())
 
         val generator = GeneratorFactory.get(
             type.get(),
