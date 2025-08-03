@@ -33,7 +33,7 @@ testing {
 
 gradlePlugin {
     val l10n by plugins.creating {
-        id = "l10n-gradle-plugin"
+        id = "dev.horvathandris.localisation"
         implementationClass = "dev.horvathandris.localisation.L10nPlugin"
         displayName = "Localisation CodeGen"
         description = "Plugin for generating aergonomic code from translation message keys."
@@ -44,19 +44,6 @@ gradlePlugin {
             "l10n", "localization", "localisation",
             "codegen", "code-generation"
         )
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/horvathandris/l10n")
-            credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
-            }
-        }
     }
 }
 

@@ -23,7 +23,7 @@ class L10nPluginFunctionalTest {
         buildFile.writeText("""
             plugins {
                 id("java")
-                id("l10n-gradle-plugin")
+                id("dev.horvathandris.localisation")
             }
             
             generateMessages {

@@ -7,7 +7,7 @@ repositories {
 
 plugins {
     java
-    id("l10n-gradle-plugin")
+    id("dev.horvathandris.localisation")
 }
 
 dependencies {
