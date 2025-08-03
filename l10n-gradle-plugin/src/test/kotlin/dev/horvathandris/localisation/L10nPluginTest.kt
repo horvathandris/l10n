@@ -12,7 +12,7 @@ class L10nPluginTest {
         val project = ProjectBuilder.builder().build()
 
         // when
-        project.plugins.apply("dev.horvathandris.localisation")
+        project.plugins.apply("l10n-gradle-plugin")
 
         // then
         assertNotNull(project.tasks.findByName("generateMessages"))
