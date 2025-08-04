@@ -4,6 +4,11 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
+dependencyLocking {
+    lockAllConfigurations()
+    lockMode = LockMode.STRICT
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
