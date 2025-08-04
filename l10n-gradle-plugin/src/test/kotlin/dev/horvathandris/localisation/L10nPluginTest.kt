@@ -1,4 +1,4 @@
-package dev.horvathandris.localisation
+package io.github.horvathandris.localisation
 
 import org.gradle.testfixtures.ProjectBuilder
 import kotlin.test.Test
@@ -12,7 +12,7 @@ class L10nPluginTest {
         val project = ProjectBuilder.builder().build()
 
         // when
-        project.plugins.apply("dev.horvathandris.localisation")
+        project.plugins.apply("io.github.horvathandris.localisation")
 
         // then
         assertNotNull(project.tasks.findByName("generateMessages"))

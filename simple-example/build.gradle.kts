@@ -1,5 +1,5 @@
-import dev.horvathandris.localisation.generator.GenerateMessagesTask
-import dev.horvathandris.localisation.generator.Generator
+import io.github.horvathandris.localisation.generator.GenerateMessagesTask
+import io.github.horvathandris.localisation.generator.Generator
 
 repositories {
     mavenCentral()
@@ -7,7 +7,7 @@ repositories {
 
 plugins {
     java
-    id("dev.horvathandris.localisation")
+    id("io.github.horvathandris.localisation")
 }
 
 dependencies {
@@ -17,7 +17,7 @@ dependencies {
 
 tasks.named<GenerateMessagesTask>("generateMessages") {
     messageBundleFile = file("src/main/resources/messages.properties")
-    packageName = "dev.horvathandris.example.l10n"
+    packageName = "io.github.horvathandris.example.l10n"
     type = Generator.Type.SIMPLE
 }
 

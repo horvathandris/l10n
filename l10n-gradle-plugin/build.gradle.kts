@@ -33,8 +33,8 @@ testing {
 
 gradlePlugin {
     val l10n by plugins.creating {
-        id = "dev.horvathandris.localisation"
-        implementationClass = "dev.horvathandris.localisation.L10nPlugin"
+        id = "io.github.horvathandris.localisation"
+        implementationClass = "io.github.horvathandris.localisation.L10nPlugin"
         displayName = "Localisation CodeGen"
         description = "Plugin for generating aergonomic code from translation message keys."
         website = "https://github.com/horvathandris/l10n"

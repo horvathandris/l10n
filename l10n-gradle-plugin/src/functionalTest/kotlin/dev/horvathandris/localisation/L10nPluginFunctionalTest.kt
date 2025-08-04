@@ -1,4 +1,4 @@
-package dev.horvathandris.localisation
+package io.github.horvathandris.localisation
 
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.io.TempDir
@@ -23,12 +23,12 @@ class L10nPluginFunctionalTest {
         buildFile.writeText("""
             plugins {
                 id("java")
-                id("dev.horvathandris.localisation")
+                id("io.github.horvathandris.localisation")
             }
             
             generateMessages {
                 messageBundleFile = file("src/main/resources/messages.properties")
-                packageName = "dev.horvathandris.something"
+                packageName = "io.github.horvathandris.something"
             }
         """.trimIndent())
 
@@ -45,15 +45,15 @@ class L10nPluginFunctionalTest {
             .build()
 
         // then
-        val output = projectDir.resolve("build/generated/sources/l10n/main/java/dev/horvathandris/something/L10n.java")
+        val output = projectDir.resolve("build/generated/sources/l10n/main/java/io/github/horvathandris/something/L10n.java")
         assertTrue(output.exists())
         assertEquals(
             """
-                package dev.horvathandris.something;
+                package io.github.horvathandris.something;
 
                 import javax.annotation.processing.Generated;
                 
-                @Generated("dev.horvathandris.localisation.generator.SimpleJavaGenerator")
+                @Generated("io.github.horvathandris.localisation.generator.SimpleJavaGenerator")
                 public final class L10n {
                 
                     private L10n() {}

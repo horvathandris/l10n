@@ -8,7 +8,7 @@ A plugin to autogenerate Java/Kotlin code from i18n `messages.properties` files.
 // build.gradle.kts
 
 plugins {
-  id("dev.horvathandris.localisation")
+  id("io.github.horvathandris.localisation")
 }
 ```
 
