@@ -1,5 +1,6 @@
 package io.github.horvathandris.localisation.generator
 
+import io.github.horvathandris.localisation.generator.builder.JavaSourceBuilder
 import io.github.horvathandris.localisation.util.CodeCase
 import io.github.horvathandris.localisation.util.convertCase
 
@@ -18,40 +19,43 @@ class SimpleJavaGenerator(
         content = generateContent(messages),
     ))
 
-    private fun generateContent(messages: MessageTree) = buildString {
-        appendLine("package $packageName;")
-        appendLine()
-        appendLine("import javax.annotation.processing.Generated;")
-        appendLine()
-        appendLine("@Generated(\"${this@SimpleJavaGenerator.javaClass.canonicalName}\")")
-        appendLine("public final class L10n {")
-        appendLine()
-        appendLine("${topLevelIndent}private L10n() {}")
-        appendMessages(messages, topLevelIndent)
-        appendLine("}")
+    private fun generateContent(messages: MessageTree): String {
+        val topLevelClassBuilder = JavaSourceBuilder.ClassBuilder()
+            .addAnnotation("""
+                @Generated(
+                ${topLevelIndent}value = "${this.javaClass.canonicalName}",
+                ${topLevelIndent}date = "${java.time.OffsetDateTime.now()}"
+                )
+            """.trimIndent())
+            .setName(TOP_LEVEL_CLASSNAME)
+            .setModifiers("public final")
+            .addConstructor("private")
+
+        messages.forEach { (key, value) -> topLevelClassBuilder.buildContents(key, value) }
+
+        return JavaSourceBuilder()
+            .setPackageName(packageName)
+            .addImport("javax.annotation.processing.Generated")
+            .addClass(topLevelClassBuilder)
+            .build(indentSize = topLevelIndent.length)
     }
 
-    private fun StringBuilder.appendMessages(
-        messages: MessageTree,
-        indent: String
-    ) {
-        messages.forEach { (key, value) ->
-            if (value.message?.value != null) {
-                appendLine()
-                appendLine("${indent}/**")
-                appendLine("$indent * ${value.message.value}")
-                appendLine("$indent */")
-                appendLine("${indent}public static final String ${key.convertCase(CodeCase.SCREAMING_SNAKE)} = \"${value.message.key}\";")
-            }
-
-            if (value.children.isNotEmpty()) {
-                appendLine()
-                appendLine("${indent}public static final class ${key.convertCase(CodeCase.PASCAL)} {")
-                appendLine()
-                appendLine("$indent${topLevelIndent}private ${key.convertCase(CodeCase.PASCAL)}() {}")
-                appendMessages(value.children, "$indent$topLevelIndent")
-                appendLine("${indent}}")
-            }
+    private fun JavaSourceBuilder.ClassBuilder.buildContents(key: String, value: MessageComponent): JavaSourceBuilder.ClassBuilder {
+        if (value.message?.value != null) {
+            this.addField("public static final String ${key.convertCase(CodeCase.SCREAMING_SNAKE)} = \"${value.message.key}\";")
         }
+
+        if (value.children.isNotEmpty()) {
+            val builder = JavaSourceBuilder.ClassBuilder()
+                .setName(key.convertCase(CodeCase.PASCAL))
+                .setModifiers("public static final")
+            this.addNestedClasses(
+                value.children.map { (childKey, childValue) ->
+                    builder.buildContents(childKey, childValue)
+                }
+            )
+        }
+
+        return this
     }
 }
