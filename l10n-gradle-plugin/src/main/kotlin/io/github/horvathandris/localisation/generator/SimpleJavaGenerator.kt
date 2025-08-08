@@ -47,8 +47,9 @@ class SimpleJavaGenerator(
 
         if (value.children.isNotEmpty()) {
             val builder = JavaSourceBuilder.ClassBuilder()
-                .setName(key.convertCase(CodeCase.PASCAL))
                 .setModifiers("public static final")
+                .setName(key.convertCase(CodeCase.PASCAL))
+                .addConstructor("private")
             this.addNestedClasses(
                 value.children.map { (childKey, childValue) ->
                     builder.buildContents(childKey, childValue)
