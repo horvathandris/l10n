@@ -38,11 +38,17 @@ class JavaSourceBuilder {
 
     class MethodBuilder {
 
+        private var javadocLines = mutableListOf<String>()
         private var name: String? = null
         private var returnType: String = "void"
         private var modifiers: String = "public"
-        private val parameters = mutableListOf<Pair<String, String>>()
+        private val parameters = mutableListOf<String>()
         private val bodyLines = mutableListOf<String>()
+
+        fun addJavadocLine(line: String): MethodBuilder {
+            javadocLines += line
+            return this
+        }
 
         fun setName(name: String): MethodBuilder {
             this.name = name
@@ -59,8 +65,8 @@ class JavaSourceBuilder {
             return this
         }
 
-        fun addParameter(type: String, name: String): MethodBuilder {
-            parameters += type to name
+        fun addParameter(parameter: String): MethodBuilder {
+            parameters += parameter
             return this
         }
 
@@ -71,7 +77,12 @@ class JavaSourceBuilder {
 
         fun build(indentSize: Int, level: Int): String = buildString {
             val indent = " ".repeat(indentSize * level)
-            val paramList = parameters.joinToString(", ") { "${it.first} ${it.second}" }
+            if (javadocLines.isNotEmpty()) {
+                appendLine("$indent/**")
+                javadocLines.forEach { appendLine("$indent * $it") }
+                appendLine("$indent */")
+            }
+            val paramList = parameters.joinToString(", ") { it }
             appendLine("$indent$modifiers $returnType $name($paramList) {")
             val bodyIndent = " ".repeat(indentSize * (level + 1))
             bodyLines.forEach { appendLine("$bodyIndent$it") }
