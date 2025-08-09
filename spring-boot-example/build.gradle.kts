@@ -1,5 +1,5 @@
 import io.github.horvathandris.localisation.generator.GenerateMessagesTask
-import io.github.horvathandris.localisation.generator.Generator
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SpringJavaConfiguration
 
 repositories {
     mavenCentral()
@@ -24,8 +24,11 @@ dependencies {
 
 tasks.named<GenerateMessagesTask>("generateMessages") {
     messageBundleFile = file("src/main/resources/i18n/messages.properties")
-    packageName = "io.github.horvathandris.example.l10n"
-    type = Generator.Type.SPRING
+    configuration<SpringJavaConfiguration> {
+        packageName = "io.github.horvathandris.example.l10n"
+        indentSize = 2
+        useFormatAsArgumentName = true
+    }
 }
 
 tasks.named<Test>("test") {

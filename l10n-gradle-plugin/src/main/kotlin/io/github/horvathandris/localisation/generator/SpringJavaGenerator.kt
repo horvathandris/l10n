@@ -1,6 +1,7 @@
 package io.github.horvathandris.localisation.generator
 
 import io.github.horvathandris.localisation.generator.builder.JavaSourceBuilder
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SpringJavaConfiguration
 import io.github.horvathandris.localisation.util.CodeCase
 import io.github.horvathandris.localisation.util.convertCase
 
@@ -8,11 +9,10 @@ private const val TOP_LEVEL_CLASSNAME = "L10n"
 private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.java"
 
 class SpringJavaGenerator(
-    val packageName: String,
-    indentSize: Int,
-): Generator() {
+    configuration: SpringJavaConfiguration,
+): Generator<SpringJavaConfiguration>(configuration) {
 
-    private val topLevelIndent: String = " ".repeat(indentSize)
+    private val topLevelIndent: String = " ".repeat(configuration.indentSize)
 
     override fun generate(messages: MessageTree) = listOf(
         Output(
@@ -35,7 +35,7 @@ class SpringJavaGenerator(
             .addMessagesToClass(messages)
 
         return JavaSourceBuilder()
-            .setPackageName(packageName)
+            .setPackageName(configuration.packageName)
             .addImport("io.github.horvathandris.localisation.L10nMessageSourceResolvable")
             .addImport("javax.annotation.processing.Generated")
             .addClass(topLevelClassBuilder)
@@ -56,8 +56,8 @@ class SpringJavaGenerator(
                     .addBodyLine(
                         "return new L10nMessageSourceResolvable(\"${value.message.key}\", \"${value.message.value}\"${formatCallArguments(value.message.arguments)});"
                     )
-                value.message.arguments.forEachIndexed { _, index ->
-                    methodBuilder.addParameter("final String arg$index")
+                value.message.arguments.forEach { argument ->
+                    methodBuilder.addParameter(formatMethodArgument(argument))
                 }
                 this.addMethod(methodBuilder)
             }
@@ -74,7 +74,17 @@ class SpringJavaGenerator(
         return this
     }
 
-    private fun formatCallArguments(arguments: List<String>): String =
-        if (arguments.isNotEmpty()) arguments.joinToString(prefix = ", ", separator = ", ") { "arg$it" }
+    private fun formatCallArguments(arguments: List<Argument>): String =
+        if (arguments.isNotEmpty()) arguments.joinToString(prefix = ", ", separator = ", ") {
+            if (configuration.useFormatAsArgumentName && it.format != null) it.format else "arg${it.index}"
+        }
         else ""
+
+    private fun formatMethodArgument(argument: Argument): String =
+        "final String ${
+            if (configuration.useFormatAsArgumentName && argument.format != null)
+                argument.format 
+            else
+                "arg${argument.index}"
+        }"
 }

@@ -1,34 +1,37 @@
 package io.github.horvathandris.localisation.generator
 
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SimpleJavaConfiguration
 import io.github.horvathandris.localisation.parser.MessageParser
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.Directory
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
 abstract class GenerateMessagesTask : DefaultTask() {
 
-    @get:Input
-    abstract val messageBundleFile: Property<File>
-
-    @get:Input
-    abstract val packageName: Property<String>
-
-    @get:Input
-    abstract val language: Property<Generator.Language>
-
-    @get:Input
-    abstract val type: Property<Generator.Type>
-
-    private val outputDirectory: Directory
-
     init {
         description = "Task to generate code for translation keys defined in a message bundle"
         group = BasePlugin.BUILD_GROUP
-        outputDirectory = project.layout.buildDirectory.dir("generated/sources/l10n").get()
+    }
+
+    @get:Input
+    abstract val messageBundleFile: Property<File>
+
+    @get:Nested
+    private var configuration: GeneratorConfiguration = SimpleJavaConfiguration()
+
+    private val outputDirectory = project.layout.buildDirectory.dir("generated/sources/l10n").get()
+
+    fun <C : GeneratorConfiguration> configuration(type: Class<C>, action: C.() -> Unit) {
+        configuration = type.getDeclaredConstructor().newInstance().apply(action)
+    }
+
+    inline fun <reified C : GeneratorConfiguration> configuration(noinline action: C.() -> Unit) {
+        configuration(C::class.java, action)
     }
 
     @TaskAction
@@ -37,12 +40,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
 
         val messages = MessageParser().parse(messageBundleFile.get())
 
-        val generator = GeneratorFactory.get(
-            type.get(),
-            language.get(),
-            packageName.get(),
-            indentSize = 4,
-        )
+        val generator = GeneratorFactory.get(configuration)
         generator.generate(messages).forEach { writeOutputFile(it) }
     }
 
@@ -54,7 +52,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
     }
 
     private fun writeOutputFile(generatorOutput: Generator.Output) {
-        val packageDirectory = packageName.get().replace(".", "/")
+        val packageDirectory = configuration.packageName.replace(".", "/")
         val outputFile = outputDirectory
             .file("main/java/$packageDirectory/${generatorOutput.filename}")
             .asFile

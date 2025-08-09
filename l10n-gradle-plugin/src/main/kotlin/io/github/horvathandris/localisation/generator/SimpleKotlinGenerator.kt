@@ -1,17 +1,18 @@
 package io.github.horvathandris.localisation.generator
 
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SimpleKotlinConfiguration
 import io.github.horvathandris.localisation.util.CodeCase
 import io.github.horvathandris.localisation.util.convertCase
+import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
 
 private const val TOP_LEVEL_CLASSNAME = "L10n"
 private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.kt"
 
 class SimpleKotlinGenerator(
-    val packageName: String,
-    indentSize: Int,
-) : Generator() {
+    configuration: SimpleKotlinConfiguration,
+) : Generator<SimpleKotlinConfiguration>(configuration) {
 
-    private val topLevelIndent: String = " ".repeat(indentSize)
+    private val topLevelIndent: String = " ".repeat(configuration.indentSize)
 
     override fun generate(messages: MessageTree) = listOf(Output(
         filename = OUTPUT_FILENAME,

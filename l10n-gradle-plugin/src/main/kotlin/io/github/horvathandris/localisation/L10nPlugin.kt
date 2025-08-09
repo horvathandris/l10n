@@ -1,7 +1,6 @@
 package io.github.horvathandris.localisation
 
 import io.github.horvathandris.localisation.generator.GenerateMessagesTask
-import io.github.horvathandris.localisation.generator.Generator
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
@@ -21,10 +20,7 @@ class L10nPlugin: Plugin<Project> {
         project.tasks.register(
             GENERATE_MESSAGES_TASK_NAME,
             GenerateMessagesTask::class.java,
-        ) {
-            it.type.convention(Generator.Type.SIMPLE)
-            it.language.convention(Generator.Language.JAVA)
-        }
+        )
 
         project.pluginManager.withPlugin("java") {
             project.tasks.named(COMPILE_JAVA_TASK_NAME) {

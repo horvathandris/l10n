@@ -1,6 +1,7 @@
 package io.github.horvathandris.localisation.generator
 
 import io.github.horvathandris.localisation.generator.builder.JavaSourceBuilder
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SimpleJavaConfiguration
 import io.github.horvathandris.localisation.util.CodeCase
 import io.github.horvathandris.localisation.util.convertCase
 
@@ -8,11 +9,10 @@ private const val TOP_LEVEL_CLASSNAME = "L10n"
 private const val OUTPUT_FILENAME = "$TOP_LEVEL_CLASSNAME.java"
 
 class SimpleJavaGenerator(
-    val packageName: String,
-    indentSize: Int,
-) : Generator() {
+    configuration: SimpleJavaConfiguration,
+) : Generator<SimpleJavaConfiguration>(configuration) {
 
-    private val topLevelIndent: String = " ".repeat(indentSize)
+    private val topLevelIndent: String = " ".repeat(configuration.indentSize)
 
     override fun generate(messages: MessageTree) = listOf(Output(
         filename = OUTPUT_FILENAME,
@@ -34,7 +34,7 @@ class SimpleJavaGenerator(
         messages.forEach { (key, value) -> topLevelClassBuilder.buildContents(key, value) }
 
         return JavaSourceBuilder()
-            .setPackageName(packageName)
+            .setPackageName(configuration.packageName)
             .addImport("javax.annotation.processing.Generated")
             .addClass(topLevelClassBuilder)
             .build(indentSize = topLevelIndent.length)

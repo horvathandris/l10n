@@ -79,12 +79,12 @@ class JavaSourceBuilderTest {
             .setName("helloWorld")
             .setReturnType("String")
             .setModifiers("public static")
-            .addParameter("String", "name")
+            .addParameter("final String name")
             .addBodyLine("return \"Hello, \" + name + \"!\";")
             .build(4, 0)
 
         val expected = """
-            public static String helloWorld(String name) {
+            public static String helloWorld(final String name) {
                 return "Hello, " + name + "!";
             }
         """.trimIndent()

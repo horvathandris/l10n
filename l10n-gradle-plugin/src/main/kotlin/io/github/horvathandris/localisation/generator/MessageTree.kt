@@ -10,5 +10,11 @@ data class MessageComponent(
 data class MessageValue(
     val key: String,
     val value: String? = null,
-    val arguments: List<String> = emptyList(),
+    val arguments: List<Argument> = emptyList(),
+)
+
+data class Argument(
+    val index: Int,
+    val type: String? = null,
+    val format: String? = null,
 )

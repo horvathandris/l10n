@@ -1,42 +1,19 @@
 package io.github.horvathandris.localisation.generator
 
+import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration
+
 abstract class GeneratorFactory {
 
     companion object {
 
-        fun get(
-            type: Generator.Type,
-            language: Generator.Language,
-            packageName: String,
-            indentSize: Int,
-        ): Generator {
-            return when (type) {
-                Generator.Type.SIMPLE -> getSimpleGenerator(language, packageName, indentSize)
-                Generator.Type.SPRING -> getSpringGenerator(language, packageName, indentSize)
+        fun get(configuration: GeneratorConfiguration): Generator<out GeneratorConfiguration> {
+            return when (configuration) {
+                is GeneratorConfiguration.SimpleJavaConfiguration -> SimpleJavaGenerator(configuration)
+                is GeneratorConfiguration.SimpleKotlinConfiguration -> SimpleKotlinGenerator(configuration)
+                is GeneratorConfiguration.SpringJavaConfiguration -> SpringJavaGenerator(configuration)
             }
         }
 
-        private fun getSimpleGenerator(
-            language: Generator.Language,
-            packageName: String,
-            indentSize: Int,
-        ): Generator {
-            return when (language) {
-                Generator.Language.JAVA -> SimpleJavaGenerator(packageName, indentSize)
-                Generator.Language.KOTLIN -> SimpleKotlinGenerator(packageName, indentSize)
-            }
-        }
-
-        private fun getSpringGenerator(
-            language: Generator.Language,
-            packageName: String,
-            indentSize: Int,
-        ): Generator {
-            return when (language) {
-                Generator.Language.JAVA -> SpringJavaGenerator(packageName, indentSize)
-                Generator.Language.KOTLIN -> TODO()
-            }
-        }
     }
 
 }
