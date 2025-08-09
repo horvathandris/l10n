@@ -17,7 +17,7 @@ dependencies {
 
 tasks.named<GenerateMessagesTask>("generateMessages") {
     messageBundleFile = file("src/main/resources/messages.properties")
-    configuration<SimpleJavaConfiguration> {
+    generatorConfig<SimpleJavaConfiguration> {
         packageName = "io.github.horvathandris.example.l10n"
     }
 }

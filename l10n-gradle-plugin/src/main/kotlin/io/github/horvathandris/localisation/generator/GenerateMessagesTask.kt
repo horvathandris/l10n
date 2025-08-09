@@ -22,16 +22,16 @@ abstract class GenerateMessagesTask : DefaultTask() {
     abstract val messageBundleFile: Property<File>
 
     @get:Nested
-    private var configuration: GeneratorConfiguration = SimpleJavaConfiguration()
+    private var generatorConfig: GeneratorConfiguration = SimpleJavaConfiguration()
 
     private val outputDirectory = project.layout.buildDirectory.dir("generated/sources/l10n").get()
 
-    fun <C : GeneratorConfiguration> configuration(type: Class<C>, action: C.() -> Unit) {
-        configuration = type.getDeclaredConstructor().newInstance().apply(action)
+    fun <C : GeneratorConfiguration> generatorConfig(type: Class<C>, action: C.() -> Unit) {
+        generatorConfig = type.getDeclaredConstructor().newInstance().apply(action)
     }
 
-    inline fun <reified C : GeneratorConfiguration> configuration(noinline action: C.() -> Unit) {
-        configuration(C::class.java, action)
+    inline fun <reified C : GeneratorConfiguration> generatorConfig(noinline action: C.() -> Unit) {
+        generatorConfig(C::class.java, action)
     }
 
     @TaskAction
@@ -40,7 +40,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
 
         val messages = MessageParser().parse(messageBundleFile.get())
 
-        val generator = GeneratorFactory.get(configuration)
+        val generator = GeneratorFactory.get(generatorConfig)
         generator.generate(messages).forEach { writeOutputFile(it) }
     }
 
@@ -52,7 +52,7 @@ abstract class GenerateMessagesTask : DefaultTask() {
     }
 
     private fun writeOutputFile(generatorOutput: Generator.Output) {
-        val packageDirectory = configuration.packageName.replace(".", "/")
+        val packageDirectory = generatorConfig.packageName.replace(".", "/")
         val outputFile = outputDirectory
             .file("main/java/$packageDirectory/${generatorOutput.filename}")
             .asFile

@@ -24,7 +24,7 @@ dependencies {
 
 tasks.named<GenerateMessagesTask>("generateMessages") {
     messageBundleFile = file("src/main/resources/i18n/messages.properties")
-    configuration<SpringJavaConfiguration> {
+    generatorConfig<SpringJavaConfiguration> {
         packageName = "io.github.horvathandris.example.l10n"
         indentSize = 2
         useFormatAsArgumentName = true
