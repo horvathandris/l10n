@@ -1,3 +1,5 @@
+import org.jreleaser.sdk.mavencentral.MavenCentralMavenDeployer
+
 plugins {
     `java-gradle-plugin`
     `maven-publish`
@@ -88,7 +90,7 @@ fun MavenPublication.defaultPom() = pom {
     scm {
         connection = "scm:git:https://github.com/horvathandris/l10n.git"
         developerConnection = "scm:git:ssh://github.com/horvathandris/l10n.git"
-        url = "http://github.com/horvathandris/l10n"
+        url = "https://github.com/horvathandris/l10n"
     }
 }
 

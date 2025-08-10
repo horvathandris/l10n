@@ -16,7 +16,6 @@ tasks.test {
 
 kotlin {
   jvmToolchain {
-    version = 21
-    nativeImageCapable = true
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
