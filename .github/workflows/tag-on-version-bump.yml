@@ -34,10 +34,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          echo "${{ steps.detect_files.outputs.files }}" > changed_files.txt
+
+          TAGS_TO_PUSH=()
+
           while read FILE; do
             [ -z "$FILE" ] && continue
 
-            # Determine module name from path
             DIR=$(dirname "$FILE")
             if [ "$DIR" = "." ]; then
               MODULE="root"
@@ -45,11 +48,9 @@ jobs:
               MODULE=$(echo "$DIR" | tr '/' '-')
             fi
 
-            # Extract old and new versions
             OLD_VERSION=$(git show ${{ github.event.before }}:"$FILE" 2>/dev/null | grep '^version=' | cut -d'=' -f2 || true)
             NEW_VERSION=$(grep '^version=' "$FILE" | cut -d'=' -f2 || true)
 
-            # Skip if no version change
             if [ "$OLD_VERSION" = "$NEW_VERSION" ] || [ -z "$NEW_VERSION" ]; then
               echo "[$MODULE] Version unchanged (still $NEW_VERSION), skipping."
               continue
@@ -57,14 +58,20 @@ jobs:
 
             TAG="${MODULE}/v${NEW_VERSION}"
 
-            # Skip if tag already exists
             if git rev-parse "$TAG" >/dev/null 2>&1; then
               echo "[$MODULE] Tag $TAG already exists, skipping."
               continue
             fi
 
-            echo "[$MODULE] Tagging new version: $OLD_VERSION → $NEW_VERSION"
+            echo "[$MODULE] Creating tag: $TAG (version change $OLD_VERSION → $NEW_VERSION)"
             git tag "$TAG"
-            git push origin "$TAG"
+            TAGS_TO_PUSH+=("$TAG")
 
-          done < <(echo "${{ steps.detect_files.outputs.files }}")
+          done < changed_files.txt
+
+          if [ ${#TAGS_TO_PUSH[@]} -eq 0 ]; then
+            echo "No new tags to push."
+          else
+            echo "Pushing tags: ${TAGS_TO_PUSH[*]}"
+            git push origin "${TAGS_TO_PUSH[@]}"
+          fi
