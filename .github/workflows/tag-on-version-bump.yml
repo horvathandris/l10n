@@ -67,4 +67,4 @@ jobs:
             git tag "$TAG"
             git push origin "$TAG"
 
-          done < <(echo "${{ steps.detect_files.outputs.files }}"
+          done < <(echo "${{ steps.detect_files.outputs.files }}")
