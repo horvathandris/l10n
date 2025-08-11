@@ -52,6 +52,10 @@ publishing {
     }
 }
 
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
 jreleaser {
     signing {
         setActive("ALWAYS")
