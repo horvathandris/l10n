@@ -18,7 +18,7 @@ jobs:
           java-version: '21'
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Parse artifact and version from tag
         id: parse
@@ -31,7 +31,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Run JReleaser
-        run: ./gradlew :$ARTIFACT:jreleaserFullRelease -PprojectVersion=${{ steps.parse.outputs.version }}
+        run: ./gradlew :${{ steps.parse.outputs.artifact }}:jreleaserFullRelease -PprojectVersion=${{ steps.parse.outputs.version }}
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.JRELEASER_GPG_PUBLIC_KEY }}
