@@ -53,11 +53,11 @@ class SpringJavaGenerator(
                     .setModifiers("public static")
                     .setName(key.convertCase(CodeCase.CAMEL))
                     .setReturnType("L10nMessageSourceResolvable")
-                    .addBodyLine(
-                        "return new L10nMessageSourceResolvable(\"${value.message.key}\", \"${value.message.value}\"${formatCallArguments(value.message.arguments)});"
+                    .addBodyLines(
+                        "return new L10nMessageSourceResolvable(\"${value.message.key}\", \"${value.message.value}\"${joinCallArguments(value.message.arguments)});",
                     )
-                value.message.arguments.forEach { argument ->
-                    methodBuilder.addParameter(formatMethodArgument(argument))
+                decorateMethodArguments(value.message.arguments).forEach {
+                    methodBuilder.addParameter(it)
                 }
                 this.addMethod(methodBuilder)
             }
@@ -74,17 +74,20 @@ class SpringJavaGenerator(
         return this
     }
 
-    private fun formatCallArguments(arguments: List<Argument>): String =
-        if (arguments.isNotEmpty()) arguments.joinToString(prefix = ", ", separator = ", ") {
-            if (configuration.useFormatAsArgumentName && it.format != null) it.format else "arg${it.index}"
+    private fun formatArguments(arguments: List<Argument>): List<String> =
+        arguments.map {
+            if (configuration.useFormatAsArgumentName && !it.format.isNullOrBlank()) {
+                "\"${it.format}\""
+            } else {
+                "arg${it.index}"
+            }
         }
-        else ""
 
-    private fun formatMethodArgument(argument: Argument): String =
-        "final String ${
-            if (configuration.useFormatAsArgumentName && argument.format != null)
-                argument.format 
-            else
-                "arg${argument.index}"
-        }"
+    private fun joinCallArguments(arguments: List<Argument>): String =
+        formatArguments(arguments)
+            .ifEmpty { return "" }
+            .joinToString(prefix = ", ", separator = ",")
+
+    private fun decorateMethodArguments(arguments: List<Argument>): List<String> =
+        formatArguments(arguments).map { "final String $it" }
 }

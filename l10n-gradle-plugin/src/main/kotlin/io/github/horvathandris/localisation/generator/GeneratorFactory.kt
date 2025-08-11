@@ -9,7 +9,6 @@ abstract class GeneratorFactory {
         fun get(configuration: GeneratorConfiguration): Generator<out GeneratorConfiguration> {
             return when (configuration) {
                 is GeneratorConfiguration.SimpleJavaConfiguration -> SimpleJavaGenerator(configuration)
-                is GeneratorConfiguration.SimpleKotlinConfiguration -> SimpleKotlinGenerator(configuration)
                 is GeneratorConfiguration.SpringJavaConfiguration -> SpringJavaGenerator(configuration)
             }
         }

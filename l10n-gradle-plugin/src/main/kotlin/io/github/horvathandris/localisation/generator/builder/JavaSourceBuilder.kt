@@ -70,8 +70,8 @@ class JavaSourceBuilder {
             return this
         }
 
-        fun addBodyLine(line: String): MethodBuilder {
-            bodyLines += line
+        fun addBodyLines(vararg lines: String): MethodBuilder {
+            bodyLines += lines
             return this
         }
 

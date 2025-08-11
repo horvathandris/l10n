@@ -11,9 +11,14 @@ sealed class GeneratorConfiguration {
 
     class SimpleJavaConfiguration : GeneratorConfiguration()
 
-    class SimpleKotlinConfiguration : GeneratorConfiguration()
-
     class SpringJavaConfiguration(
+        /**
+         * Whether to use the format of the message as the argument name in the generated method.
+         * If false, the argument name will be "arg0", "arg1", etc.
+         *
+         * Example usage:
+         * greeting=Hello, {0,,name}!
+         */
         @Input
         var useFormatAsArgumentName: Boolean = false,
     ) : GeneratorConfiguration()
