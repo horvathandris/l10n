@@ -1,0 +1,41 @@
+name: Release with JReleaser
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  jreleaser-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v5
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Parse artifact and version from tag
+        id: parse
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          # Example tag: l10-spring/v0.0.3
+          ARTIFACT=$(echo "$TAG" | cut -d'/' -f1)
+          VERSION=$(echo "$TAG" | cut -d'/' -f2)
+          echo "artifact=$ARTIFACT" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Run JReleaser
+        run: ./gradlew :$ARTIFACT:jreleaserFullRelease -PprojectVersion=${{ steps.parse.outputs.version }}
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.JRELEASER_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.JRELEASER_GPG_SECRET_KEY }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.JRELEASER_MAVENCENTRAL_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.JRELEASER_MAVENCENTRAL_PASSWORD }}

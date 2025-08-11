@@ -77,7 +77,7 @@ class SpringJavaGenerator(
     private fun formatArguments(arguments: List<Argument>): List<String> =
         arguments.map {
             if (configuration.useFormatAsArgumentName && !it.format.isNullOrBlank()) {
-                "\"${it.format}\""
+                it.format
             } else {
                 "arg${it.index}"
             }

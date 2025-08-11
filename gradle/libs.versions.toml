@@ -3,12 +3,14 @@
 kotlin = "2.2.0"
 spring = "6.2.9"
 spring-boot = "3.5.4"
+jreleaser = "1.19.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+jreleaser-plugin = { module = "org.jreleaser:jreleaser-gradle-plugin", version.ref = "jreleaser" }
 spring-context = { module = "org.springframework:spring-context", version.ref = "spring" }
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring-boot" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
