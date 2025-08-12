@@ -32,6 +32,9 @@ jobs:
 
       - name: Publish to local staging
         run: ./gradlew :${{ steps.parse.outputs.artifact }}:publish
+        env:
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.JRELEASER_GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
 
       - name: Run JReleaser
         run: ./gradlew :${{ steps.parse.outputs.artifact }}:jreleaserFullRelease -PprojectVersion=${{ steps.parse.outputs.version }}
