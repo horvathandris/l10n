@@ -1,4 +1,4 @@
-import io.github.horvathandris.localisation.generator.GenerateMessagesTask
+import io.github.horvathandris.localisation.generator.GenerateL10nMessagesTask
 import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SimpleJavaConfiguration
 
 plugins {
@@ -18,7 +18,7 @@ test {
     useJUnitPlatform()
 }
 
-tasks.named("generateMessages", GenerateMessagesTask) {
+tasks.named("generateL10nMessages", GenerateL10nMessagesTask) {
     messageBundleFile = file("src/main/resources/messages.properties")
     generatorConfig(SimpleJavaConfiguration) {
         it.packageName = "io.github.horvathandris.groovy.example"

@@ -1,4 +1,4 @@
-import io.github.horvathandris.localisation.generator.GenerateMessagesTask
+import io.github.horvathandris.localisation.generator.GenerateL10nMessagesTask
 import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SpringJavaConfiguration
 
 repositories {
@@ -22,7 +22,7 @@ dependencies {
     testImplementation(libs.spring.boot.starter.test)
 }
 
-tasks.named<GenerateMessagesTask>("generateMessages") {
+tasks.named<GenerateL10nMessagesTask>("generateL10nMessages") {
     messageBundleFile = file("src/main/resources/i18n/messages.properties")
     generatorConfig<SpringJavaConfiguration> {
         packageName = "io.github.horvathandris.example.l10n"

@@ -4,18 +4,19 @@ import io.github.horvathandris.localisation.generator.configuration.GeneratorCon
 import io.github.horvathandris.localisation.generator.configuration.GeneratorConfiguration.SimpleJavaConfiguration
 import io.github.horvathandris.localisation.parser.MessageParser
 import org.gradle.api.DefaultTask
-import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 
-abstract class GenerateMessagesTask : DefaultTask() {
+private const val L10N_TASK_GROUP = "l10n"
+
+abstract class GenerateL10nMessagesTask : DefaultTask() {
 
     init {
         description = "Task to generate code for translation keys defined in a message bundle"
-        group = BasePlugin.BUILD_GROUP
+        group = L10N_TASK_GROUP
     }
 
     @get:Input

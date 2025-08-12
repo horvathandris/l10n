@@ -26,7 +26,7 @@ class L10nPluginFunctionalTest {
                 id("io.github.horvathandris.localisation")
             }
             
-            generateMessages {
+            generateL10nMessages {
                 messageBundleFile = file("src/main/resources/messages.properties")
                 packageName = "io.github.horvathandris.something"
             }
@@ -39,7 +39,7 @@ class L10nPluginFunctionalTest {
         GradleRunner.create()
             .forwardOutput()
             .withPluginClasspath()
-            .withArguments("generateMessages")
+            .withArguments("generateL10nMessages")
             .withProjectDir(projectDir)
             .withDebug(true)
             .build()

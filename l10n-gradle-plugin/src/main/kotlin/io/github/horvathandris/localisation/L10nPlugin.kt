@@ -1,11 +1,11 @@
 package io.github.horvathandris.localisation
 
-import io.github.horvathandris.localisation.generator.GenerateMessagesTask
+import io.github.horvathandris.localisation.generator.GenerateL10nMessagesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 
-private const val GENERATE_MESSAGES_TASK_NAME = "generateMessages"
+private const val GENERATE_MESSAGES_TASK_NAME = "generateL10nMessages"
 private const val COMPILE_JAVA_TASK_NAME = "compileJava"
 private const val SOURCE_SETS = "sourceSets"
 private const val MAIN_SOURCE_SET = "main"
@@ -13,13 +13,13 @@ private const val MAIN_SOURCE_SET = "main"
 class L10nPlugin: Plugin<Project> {
 
     override fun apply(project: Project) {
-        registerGenerateMessagesTask(project)
+        registergenerateL10nMessagesTask(project)
     }
 
-    private fun registerGenerateMessagesTask(project: Project) {
+    private fun registergenerateL10nMessagesTask(project: Project) {
         project.tasks.register(
             GENERATE_MESSAGES_TASK_NAME,
-            GenerateMessagesTask::class.java,
+            GenerateL10nMessagesTask::class.java,
         )
 
         project.pluginManager.withPlugin("java") {

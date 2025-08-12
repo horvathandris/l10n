@@ -17,7 +17,7 @@ plugins {
 ```kotlin
 // build.gradle.kts
 
-tasks.named<GenerateMessagesTask>("generateMessages") {
+tasks.named<GenerateL10nMessagesTask>("generateL10nMessages") {
   messageBundleFile = file("src/main/resources/messages.properties")
   generatorConfig<SimpleJavaGeneratorConfig> {
     packageName = "com.example.l10n"
@@ -38,7 +38,7 @@ Generates simple Java nested classes with static final fields for each message c
 A sample project would look like this:
 ```kotlin
 // build.gradle.kts
-tasks.named<GenerateMessagesTask>("generateMessages") {
+tasks.named<GenerateL10nMessagesTask>("generateL10nMessages") {
     messageBundleFile = file("src/main/resources/messages.properties")
     generatorConfig<SimpleJavaGeneratorConfig> {
         packageName = "com.example.l10n"
@@ -97,7 +97,7 @@ Generates nested Java classes with static methods for each message code, with ar
 A sample project would look like this:
 ```kotlin
 // build.gradle.kts
-tasks.named<GenerateMessagesTask>("generateMessages") {
+tasks.named<GenerateL10nMessagesTask>("generateL10nMessages") {
     messageBundleFile = file("src/main/resources/messages.properties")
     generatorConfig<SpringJavaGeneratorConfig> {
         packageName = "com.example.l10n"
