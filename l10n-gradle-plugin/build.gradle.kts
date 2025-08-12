@@ -1,5 +1,3 @@
-import org.jreleaser.sdk.mavencentral.MavenCentralMavenDeployer
-
 plugins {
     `java-gradle-plugin`
     `maven-publish`
@@ -118,6 +116,13 @@ jreleaser {
         setActive("ALWAYS")
         armored = true
     }
+    release {
+        github {
+            // Disable GitHub release creation
+            // Maybe we can re-enable later and use it for moving pre-releases to releases
+            enabled = false
+        }
+    }
     deploy {
         maven {
             mavenCentral {
@@ -130,6 +135,12 @@ jreleaser {
             }
         }
     }
+}
+
+signing {
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
 val signTasks: List<Sign> = signing.sign(publishing.publications)
