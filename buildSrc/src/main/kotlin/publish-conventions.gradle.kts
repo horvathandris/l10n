@@ -65,6 +65,13 @@ jreleaser {
         setActive("ALWAYS")
         armored = true
     }
+    release {
+        github {
+            // Disable GitHub release creation
+            // Maybe we can re-enable later and use it for moving pre-releases to releases
+            enabled = false
+        }
+    }
     deploy {
         maven {
             mavenCentral {

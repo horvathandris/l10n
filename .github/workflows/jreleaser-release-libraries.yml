@@ -37,7 +37,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
 
       - name: Run JReleaser
-        run: ./gradlew :${{ steps.parse.outputs.artifact }}:jreleaserFullRelease -PprojectVersion=${{ steps.parse.outputs.version }}
+        run: ./gradlew :${{ steps.parse.outputs.artifact }}:jreleaserFullRelease -PprojectVersion=${{ steps.parse.outputs.version }} --info
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.JRELEASER_GPG_PUBLIC_KEY }}
